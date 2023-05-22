@@ -42,4 +42,15 @@ function BossMechanicHelper_ConfigSave()
     if BossMechanicHelperConfigScrollFrame.buttons then
         for i=1, table.getn(BossMechanicHelperConfigScrollFrame.buttons) do
             local button = BossMechanicHelperConfigScrollFrame.buttons[i]
-            if button and BossMechanicHelperDefaultMechanics[button.instance] and BossMechanicHelperDefaultMechanics[button.instance
+            if button and BossMechanicHelperDefaultMechanics[button.instance] and BossMechanicHelperDefaultMechanics[button.instance][button.boss] then
+                BossMechanicHelperDefaultMechanics[button.instance][button.boss] = button:GetText()
+            else
+                message("Failed to save the mechanic message for " .. button.instance .. " - " .. button.boss .. ". Please make sure it is correct.")
+            end
+        end
+    else
+        message("Failed to save the configuration. Please make sure all the addon files are properly installed and try again.")
+    end
+end
+
+UIDropDownMenu_Initialize(BossMechanicHelperDropdown, BossMechanicHelper_InitializeDropdown, "MENU")
