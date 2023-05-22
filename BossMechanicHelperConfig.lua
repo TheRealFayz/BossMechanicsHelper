@@ -1,20 +1,40 @@
--- BossMechanicHelperConfig.lua
-
 function BossMechanicHelperConfigFrame_OnLoad(self)
-    -- Event registration
-    self:RegisterEvent("VARIABLES_LOADED")
-    self.scrollFrame.update = BossMechanicHelperConfigScrollFrame_Update
-    HybridScrollFrame_CreateButtons(self.scrollFrame, "BossMechanicHelperConfigButtonTemplate", 0, 0)
-end
+    -- Create scroll frame
+    local scrollFrame = CreateFrame("ScrollFrame", "BossMechanicHelperConfigScrollFrame", self, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetWidth(350)
+    scrollFrame:SetHeight(250)
+    scrollFrame:SetPoint("TOPLEFT", self, "TOPLEFT", 20, -20)
 
--- Event handler
-function BossMechanicHelperConfigFrame_OnEvent(self, event, ...)
-    if event == "VARIABLES_LOADED" then
-        -- Update the scroll frame when the variables are loaded
-        if BossMechanicHelperConfigScrollFrame_Update then
-            BossMechanicHelperConfigScrollFrame_Update()
-        else
-            message("Failed to update the configuration frame. Please make sure all the addon files are properly installed.")
+    -- Add buttons to the scroll frame
+    local previousButton
+    for instance, bosses in pairs(BossMechanicHelperDefaultMechanics) do
+        for boss, mechanic in pairs(bosses) do
+            local button = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
+            button:SetWidth(300)
+            button:SetHeight(30)
+            if previousButton then
+                button:SetPoint("TOPLEFT", previousButton, "BOTTOMLEFT", 0, -10)
+            else
+                button:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT")
+            end
+            button:SetText(mechanic)
+            button.instance = instance
+            button.boss = boss
+            previousButton = button
+            if not scrollFrame.buttons then scrollFrame.buttons = {} end
+            table.insert(scrollFrame.buttons, button)
         end
     end
+
+    -- Add save button
+    local saveButton = CreateFrame("Button", "BossMechanicHelperConfigSaveButton", self, "UIPanelButtonTemplate")
+    saveButton:SetWidth(100)
+    saveButton:SetHeight(30)
+    saveButton:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -20, 20)
+    saveButton:SetText("Save")
+    saveButton:SetScript("OnClick", BossMechanicHelper_ConfigSave)
+end
+
+function BossMechanicHelperConfigFrame_OnEvent(self, event, ...)
+    -- Add event handling code here...
 end
