@@ -36,5 +36,28 @@ function BossMechanicHelperConfigFrame_OnLoad(self)
 end
 
 function BossMechanicHelperConfigFrame_OnEvent(self, event, ...)
-    -- Add event handling code here...
+    if event == "VARIABLES_LOADED" then
+        if not BossMechanicHelperSettings then
+            BossMechanicHelperSettings = BossMechanicHelperDefaultMechanics
+            print("BossMechanicHelper: Default settings loaded")
+        else
+            print("BossMechanicHelper: User settings loaded")
+        end
+    elseif event == "GROUP_ROSTER_UPDATE" then
+        -- You can handle group changes here
+    elseif event == "CHAT_MSG_RAID_WARNING" then
+        -- You can handle raid warnings here
+    elseif event == "PLAYER_TARGET_CHANGED" then
+        -- You can handle target changes here
+    end
+end
+
+-- Create Main Frame
+local BossMechanicHelperConfigFrame = CreateFrame("Frame", "BossMechanicHelperConfigFrame", UIParent)
+BossMechanicHelperConfigFrame:RegisterEvent("VARIABLES_LOADED")
+BossMechanicHelperConfigFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
+BossMechanicHelperConfigFrame:RegisterEvent("CHAT_MSG_RAID_WARNING")
+BossMechanicHelperConfigFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+BossMechanicHelperConfigFrame:SetScript("OnEvent", Event_Handler)
+
 end
