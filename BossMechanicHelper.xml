@@ -21,5 +21,11 @@
             </OnClick>
         </Scripts>
     </Button>
-    <Frame name="BossMechanicHelperDropdown" parent="UIParent" inherits="UIDropDownMenuTemplate"/>
+    <Frame name="BossMechanicHelperDropdown" parent="UIParent" inherits="UIDropDownMenuTemplate">
+        <Scripts>
+            <OnLoad>
+                UIDropDownMenu_Initialize(self, YourInitFunction)
+            </OnLoad>
+        </Scripts>
+    </Frame>
 </Ui>
