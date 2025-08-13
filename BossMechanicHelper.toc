@@ -5,6 +5,10 @@
 ## Author: YamaYAML
 ## License: MIT
 
+Blizzard\UIPanelTemplates.lua
+Blizzard\UIDropDownMenu.lua
+Blizzard\UIDropDownMenu.xml
+
 BossMechanicHelper.lua
 BossMechanicHelperConfig.lua
 BossMechanicHelperDefaultMechanics.lua
