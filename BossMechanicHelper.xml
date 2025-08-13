@@ -12,8 +12,8 @@
                 BossMechanicHelperConfigFrame_OnEvent(self, event, ...)
             </OnEvent>
         </Scripts>
-        <!-- More UI elements here... -->
     </Frame>
+
     <Button name="BossMechanicHelperButton" parent="Minimap" inherits="MiniMapTrackingButtonTemplate">
         <Scripts>
             <OnClick>
@@ -21,10 +21,15 @@
             </OnClick>
         </Scripts>
     </Button>
-    <Frame name="BossMechanicHelperDropdown" parent="UIParent" inherits="UIDropDownMenuTemplate">
+
+    <!-- Delay dropdown creation until after Blizzard dropdown code is loaded -->
+    <Frame name="BossMechanicHelperDropdownLoader" parent="UIParent" hidden="true">
         <Scripts>
             <OnLoad>
-                UIDropDownMenu_Initialize(self, YourInitFunction)
+                if not UIDropDownMenu_Initialize then
+                    UIParentLoadAddOn("Blizzard_UIDropDownMenu")
+                end
+                CreateFrame("Frame", "BossMechanicHelperDropdown", UIParent, "UIDropDownMenuTemplate")
             </OnLoad>
         </Scripts>
     </Frame>
